@@ -16,30 +16,6 @@ baselocal = ''
 basedev = ''
 baselive = ''
 
-print("Hello Dev")
-args = sys.argv
-
-if(len(args) == 1):
-	print('Available commands')
-	print('-export "Will export DB based on local.xml"')
-	print('-truncate "Will export > drop > create db"')
-	print('-import "Will export > drop > create > import DB with given sql should be exported From this tool"')
-	print('-todev, -tolocal and -tolive "Will change base url to dev or local based on DB name"')
-	print('-cleardata "Will clean all data including products, attribues, logs, caches"')
-
-#get all data first
-if (os.path.exists(localxml)):
-	xmldata = minidom.parse(localxml)
-	#getting first occurence
-	u = xmldata.getElementsByTagName('username')[0].firstChild.nodeValue
-	p = xmldata.getElementsByTagName('password')[0].firstChild.nodeValue
-	db = xmldata.getElementsByTagName('dbname')[0].firstChild.nodeValue
-	h = xmldata.getElementsByTagName('host')[0].firstChild.nodeValue
-	start()
-else:
-	print('Can\'t find local.xml')
-	exit
-
 #export function 
 def export():
 	filestamp = time.strftime('%Y-%m-%d-%I-%M')
@@ -207,3 +183,27 @@ def start():
 		print('Cleaning DATA')
 		cleardatacmd = 'mysql -u '+u+' -p'+p+' '+db+' < '+cleardatasql
 		os.popen(cleardatacmd)
+		
+print("Hello Dev")
+args = sys.argv
+
+if(len(args) == 1):
+	print('Available commands')
+	print('-export "Will export DB based on local.xml"')
+	print('-truncate "Will export > drop > create db"')
+	print('-import "Will export > drop > create > import DB with given sql should be exported From this tool"')
+	print('-todev, -tolocal and -tolive "Will change base url to dev or local based on DB name"')
+	print('-cleardata "Will clean all data including products, attribues, logs, caches"')
+
+#get all data first
+if (os.path.exists(localxml)):
+	xmldata = minidom.parse(localxml)
+	#getting first occurence
+	u = xmldata.getElementsByTagName('username')[0].firstChild.nodeValue
+	p = xmldata.getElementsByTagName('password')[0].firstChild.nodeValue
+	db = xmldata.getElementsByTagName('dbname')[0].firstChild.nodeValue
+	h = xmldata.getElementsByTagName('host')[0].firstChild.nodeValue
+	start()
+else:
+	print('Can\'t find local.xml')
+	exit
